@@ -1,6 +1,12 @@
 # An HTML SCSS and JAVASCIPT Playground for developers.
 
-recommended node version : 12.3.1
+I prefer this against online platforms for four main reasons :
+1. Its easier to use browsers dev tools to debug things
+2. Its closer to real world
+3. Live reload / refresh is a real time saver
+4. I can use my favourite text editors live templates / snippets while practicing
+
+recommended node version : 12.3.1 (We recommend NVM)
 
 setup :
 clone the repository
