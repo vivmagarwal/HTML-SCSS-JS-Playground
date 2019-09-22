@@ -1,0 +1,29 @@
+// he
+
+.person {
+  &--tall {
+    height: 12px;
+  }
+}
+
+::placeholder {
+  color: gray;
+}
+
+.image {
+  background-image: url(image@1x.png);
+}
+@media (min-resolution: 2dppx) {
+  .image {
+    background-image: url(image@2x.png);
+  }
+}
+
+h1 {
+  background-color: yellow;
+  color: red;
+}
+
+body {
+  background-color: lightseagreen;
+}
