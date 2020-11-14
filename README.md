@@ -13,7 +13,10 @@ clone the repository
 run `npm install`
 
 once install completes
-run `gulp watch`
+
+Use one of the following commands:
+`npm run watch` for running and watching javascript in a browser
+`npm run watch:node script.js` for running and watching javascript in node environment using `nodemon`.
 
 index.html and script.js is used as it is. 
 JS files are not processed because most browsers supports latest JS features. In case you are an IE-11 user - you may consider using https://github.com/drupalastic/HTML-SCSS-JS-Starterkit 

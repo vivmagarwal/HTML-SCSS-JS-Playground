@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "web-pack": "webpack --config webpack.config.js"
+    "web-pack": "webpack --config webpack.config.js",
+    "watch": "gulp watch",
+    "watch:node": "nodemon $0 localhost 5656"
   },
   "author": "Vivek Agarwal",
   "license": "ISC",
@@ -26,6 +28,7 @@
     "gulp-sass-glob": "^1.1.0",
     "gulp-watch": "^5.0.1",
     "node-sass": "^4.13.1",
+    "nodemon": "^2.0.6",
     "webpack": "^4.40.2",
     "webpack-cli": "^3.3.9"
   }
