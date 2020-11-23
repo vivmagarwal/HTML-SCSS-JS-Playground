@@ -107,7 +107,7 @@ gulp.task('twig:html', function () {
     throw new Error('Incorrect page name!');
   }
 
-  return gulp.src('index.twig')
+  return gulp.src('./_templates/index.twig')
   // Stay live and reload on error
   .pipe(plumber({
      handleError: function (err) {
@@ -131,7 +131,7 @@ gulp.task('twig:scss', function () {
     throw new Error('Incorrect page name!');
   }
 
-  return gulp.src('style.twig')
+  return gulp.src('./_templates/style.twig')
   // Stay live and reload on error
   .pipe(plumber({
      handleError: function (err) {
@@ -155,7 +155,7 @@ gulp.task('twig:script', function () {
     throw new Error('Incorrect page name!');
   }
 
-  return gulp.src('script.twig')
+  return gulp.src('./_templates/script.twig')
   // Stay live and reload on error
   .pipe(plumber({
      handleError: function (err) {
