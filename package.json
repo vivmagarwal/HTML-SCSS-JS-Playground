@@ -7,7 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "web-pack": "webpack --config webpack.config.js",
     "watch": "gulp watch",
-    "watch:node": "nodemon $0 localhost 5656"
+    "watch:node": "nodemon $0 localhost 5656",
+    "gp:nostyle": "gulp generate --page",
+    "generate:page": "gulp generate --page",
+    "generate:styledpage": "gulp generate --page $0 --withstyle",
+    "gp": "gulp generate --withstyle --page"
   },
   "author": "Vivek Agarwal",
   "license": "ISC",
@@ -24,12 +28,18 @@
     "babel-loader": "^8.0.6",
     "browser-sync": "^2.26.7",
     "gulp": "^4.0.2",
+    "gulp-data": "^1.3.1",
+    "gulp-inject": "^5.0.5",
+    "gulp-plumber": "^1.2.1",
     "gulp-sass": "^4.0.2",
     "gulp-sass-glob": "^1.1.0",
+    "gulp-twig": "^1.2.0",
     "gulp-watch": "^5.0.1",
+    "kebab-case": "^1.0.0",
     "node-sass": "^4.13.1",
     "nodemon": "^2.0.6",
     "webpack": "^4.40.2",
-    "webpack-cli": "^3.3.9"
+    "webpack-cli": "^3.3.9",
+    "yargs": "^16.1.1"
   }
 }

@@ -1,5 +1,5 @@
-console.log('hello world22');
+console.log('index works!!');
 
-for (let i=0; i<5; i++){
-  console.log(i);
+for (let i=0; i<3; i++){
+  console.log(i+1);
 }
