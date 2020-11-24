@@ -33,3 +33,10 @@ npm run gp page-name
 the `gp` (`generate:page`) command generates an html page along with its own js and scss file. the js and the scss file inside the page directory is specific to the html. a link to the page is automatically placed in the index page.
 
 by default the generated page has some basic styles. if you dont need them use `gp:nostyle`
+
+### Cloning existing page
+`npm run clone <the page you want to clone>`
+
+it will automatically get a name. In case you want to specify a name, please use the following command. Kindly note `--` and then `--to`
+
+`npm run clone <the page you want to clone> -- --to <new name>`

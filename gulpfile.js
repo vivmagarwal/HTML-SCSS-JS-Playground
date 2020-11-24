@@ -18,6 +18,8 @@ sass.compiler = require('node-sass');
 
 var page;
 var withstyle;
+var clonefrom;
+var cloneto;
 
 if (argv.page) {
   if (kc(argv.page).charAt(0) === '-') {
@@ -29,6 +31,22 @@ if (argv.page) {
 
 if (argv.withstyle) {
   withstyle = true;
+}
+
+if (argv.from && argv.from !== true) {
+  clonefrom = argv.from;
+}
+
+if (argv.to) {
+  if (kc(argv.to).charAt(0) === '-') {
+    cloneto = kc(argv.to).slice(1);
+  } else {
+    cloneto = kc(argv.to);
+  }
+} else {
+  if (clonefrom) {
+    cloneto = file_newname(path.join(__dirname, 'pages'), `${clonefrom}-clone`)
+  }
 }
 
 gulp.task('reload', async function reload() {
@@ -192,3 +210,42 @@ gulp.task('linksInject', async function (done) {
 });
 
 gulp.task('generate', gulp.series(gulp.parallel('twig:html', 'twig:scss', 'twig:script'), 'linksInject'));
+
+gulp.task('clone-page', function () {
+  if (!clonefrom) {
+    throw new Error('Incorrect clone from!');
+  }
+  
+  return gulp
+  .src(path.join(__dirname, 'pages', clonefrom, '*'))
+  .pipe(gulp.dest(path.join(__dirname, 'pages', cloneto)))
+});
+
+gulp.task('clone', gulp.series(gulp.parallel('clone-page'), 'linksInject'));
+
+// helper functions
+
+// todo : make sure it is the last dot.
+function file_newname(path, filename) {
+  let name, ext;
+
+  if (filename.indexOf('.') !==  -1) {
+    let pos = filename.indexOf('.')
+    name = filename.substring(0, pos);
+    ext = filename.substring(pos)
+  } else {
+    name = filename;
+  }
+
+  let newpath = `${path}/${filename}`;
+  let newname = filename;
+
+  let counter = 0;
+  while (fs.existsSync(newpath)) {
+    newname = ext ? `${name}-${counter}.${ext}` : `${name}-${counter}`;
+    newpath = `${path}/${newname}`;
+    counter++;
+   }
+  
+  return newname;
+}

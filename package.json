@@ -7,11 +7,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "web-pack": "webpack --config webpack.config.js",
     "watch": "gulp watch",
-    "watch:node": "nodemon $0 localhost 5656",
+    "watch:node": "nodemon localhost 5656",
     "gp:nostyle": "gulp generate --page",
     "generate:page": "gulp generate --page",
-    "generate:styledpage": "gulp generate --page $0 --withstyle",
-    "gp": "gulp generate --withstyle --page"
+    "generate:styledpage": "gulp generate --withstyle --page",
+    "gp": "gulp generate --withstyle --page",
+    "clone": "gulp clone --from"
   },
   "author": "Vivek Agarwal",
   "license": "ISC",
