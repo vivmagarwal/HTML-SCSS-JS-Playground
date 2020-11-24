@@ -12,7 +12,9 @@
     "generate:page": "gulp generate --page",
     "generate:styledpage": "gulp generate --withstyle --page",
     "gp": "gulp generate --withstyle --page",
-    "clone": "gulp clone --from"
+    "clone": "gulp clone --from",
+    "rebuildindex": "gulp linksInject",
+    "ri": "npm run rebuildindex"
   },
   "author": "Vivek Agarwal",
   "license": "ISC",

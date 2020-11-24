@@ -40,3 +40,6 @@ by default the generated page has some basic styles. if you dont need them use `
 it will automatically get a name. In case you want to specify a name, please use the following command. Kindly note `--` and then `--to`
 
 `npm run clone <the page you want to clone> -- --to <new name>`
+
+### Rebuild Index of pages in the index HTML file.
+`npm run rebuildindex` or `npm run ri`
