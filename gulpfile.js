@@ -100,7 +100,7 @@ gulp.task('watch', function () {
     )
   );
 
-  watch(['./pages/**/index.html', './pages/**/script.js'],
+  watch(['./pages/**/index.html', './pages/**/*.js'],
     gulp.series(
       gulp.parallel('reload')
     )
