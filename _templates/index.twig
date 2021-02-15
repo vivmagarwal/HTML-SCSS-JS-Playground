@@ -14,7 +14,6 @@
   </head>
   <body>
     <div class="main-content">
-      <h1 id="page-title">{{ title }}</h1>
 
       <div>
         <ul>
@@ -22,33 +21,14 @@
         </ul>
       </div>
 
-      <div>
-        {{ title }}
-        works!!
-      </div>
-
       <div id="app"></div>
 
-<div>
-<!-- inject:readme:md -->
-<!-- endinject -->
-</div>
-
-<h3>JS Code:</h3>        
-<pre class="injected-code">
-<!-- inject:script:js -->
-<!-- endinject -->
-</pre>
-
-
-<h3>SCSS Code:</h3>        
-<pre class="injected-code">
-<!-- inject:styles:scss -->
-<!-- endinject -->
-</pre>
+      <div class="injected-readme">
+      <!-- inject:readme:md -->
+      <!-- endinject -->
+      </div>
 
     </div>
-
     <script type="module" defer src="script.js"></script>
   </body>
 </html>

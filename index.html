@@ -16,78 +16,14 @@
         <h1>Index of pages</h1>
         <ul>
           <!-- inject:html -->
-          <li><a href="/pages/page-eight/index.html">/pages/page-eight/index.html</a></li>
-          <li><a href="/pages/page-five/index.html">/pages/page-five/index.html</a></li>
-          <li><a href="/pages/page-eleven/index.html">/pages/page-eleven/index.html</a></li>
-          <li><a href="/pages/page-nine/index.html">/pages/page-nine/index.html</a></li>
-          <li><a href="/pages/page-four/index.html">/pages/page-four/index.html</a></li>
-          <li><a href="/pages/page-one/index.html">/pages/page-one/index.html</a></li>
-          <li><a href="/pages/page-seven/index.html">/pages/page-seven/index.html</a></li>
-          <li><a href="/pages/page-six/index.html">/pages/page-six/index.html</a></li>
-          <li><a href="/pages/page-tem/index.html">/pages/page-tem/index.html</a></li>
-          <li><a href="/pages/page-twelve/index.html">/pages/page-twelve/index.html</a></li>
-          <li><a href="/pages/page-three/index.html">/pages/page-three/index.html</a></li>
-          <li><a href="/pages/page-two/index.html">/pages/page-two/index.html</a></li>
           <!-- endinject -->
         </ul>
 
-        <div>
-<!-- inject:readme:md -->
-<h1 id="an-html-scss-and-javascipt-playground-for-developers">An HTML SCSS and JAVASCIPT Playground for developers.</h1>
-<p>I prefer this against online platforms for four main reasons :</p>
-<ol>
-<li>Its easier to use browsers dev tools to debug things</li>
-<li>Its closer to real world</li>
-<li>Live reload / refresh is a real time saver</li>
-<li>I can use my favourite text editors live templates / snippets while practicing</li>
-</ol>
-<p>recommended node version : Version 12 LTS (We recommend NVM)</p>
-<p>setup :
-clone the repository
-run <code>npm install</code></p>
-<p>once install completes</p>
-<p>Use one of the following commands for running and watching javascript:</p>
-<p><code>npm run watch</code>  for browser using <code>gulp</code>.</p>
-<p><code>npm run watch:node script.js</code> for node using <code>nodemon</code>.</p>
-<p>index.html and script.js is used as it is. </p>
-<p>JS files are not processed because most browsers supports latest JS features. In case you are an IE-11 user - you may consider using <a href="https://github.com/drupalastic/HTML-SCSS-JS-Starterkit">https://github.com/drupalastic/HTML-SCSS-JS-Starterkit</a> </p>
-<p>style.scss will be compiled to style.css. Browser will refresh automatically on change. </p>
-<h3 id="generate-pages">Generate Pages</h3>
-<pre><code>npm run gp page-name
-</code></pre>
-<p>the <code>gp</code> (<code>generate:page</code>) command generates an html page along with its own js and scss file. the js and the scss file inside the page directory is specific to the html. a link to the page is automatically placed in the index page.</p>
-<p>by default the generated page has some basic styles. if you dont need them use <code>gp:nostyle</code></p>
-<h3 id="cloning-existing-page">Cloning existing page</h3>
-<p><code>npm run clone &lt;the page you want to clone&gt;</code></p>
-<p>it will automatically get a name. In case you want to specify a name, please use the following command. Kindly note <code>--</code> and then <code>--to</code></p>
-<p><code>npm run clone &lt;the page you want to clone&gt; -- --to &lt;new name&gt;</code></p>
-<h3 id="rebuild-index-of-pages-in-the-index-html-file">Rebuild Index of pages in the index HTML file.</h3>
-<p><code>npm run rebuildindex</code> or <code>npm run ri</code></p>
+        <div class="injected-readme">
+        <!-- inject:readme:md -->
+        <!-- endinject -->
+        </div>
 
-<!-- endinject -->
-</div>
-
-<h3>JS Code:</h3>        
-<pre class="injected-code">
-<!-- inject:script:js -->
-console.log('index works!!');
-
-for (let i=0; i<3; i++){
-  console.log(i+1);
-}
-<!-- endinject -->
-</pre>
-
-
-<h3>SCSS Code:</h3>        
-<pre class="injected-code">
-<!-- inject:styles:scss -->
-.main-content {
-  padding-top: 2rem;
-  padding-left: 4rem;
-};
-<!-- endinject -->
-</pre>
       </div>
     </div>
     <script src="script.js"></script>

@@ -14,7 +14,9 @@
     "gp": "gulp generate --withstyle --page",
     "clone": "gulp clone --from",
     "rebuildindex": "gulp linksInject",
-    "ri": "npm run rebuildindex"
+    "ri": "npm run rebuildindex",
+    "readme:inject": "gulp readmeInject",
+    "readme:inject:pages": "gulp readmeInject:pages" 
   },
   "author": "Vivek Agarwal",
   "license": "ISC",

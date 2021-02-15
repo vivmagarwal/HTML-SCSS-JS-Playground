@@ -112,14 +112,13 @@ gulp.task('watch', function () {
   );
 
   watch(['script.js'],
-    gulp.series('scriptInject',
+    gulp.series(
       gulp.parallel('reload')
     )
   );
 
-  watch(['readme.md'],
-    gulp.series('readmeInject',
-      gulp.parallel('reload')
+  watch(['introduction.md'],
+    gulp.series('readmeInject', 'reload'
     )
   );
 
@@ -130,25 +129,26 @@ gulp.task('watch', function () {
   );
 
   watch(['./pages/**/*.js'],
-    gulp.series('scriptInject:pages',
+    gulp.series(
       gulp.parallel('reload')
     )
   );
 
   watch(['./pages/**/readme.md'],
-    gulp.series('readmeInject:pages',
-      gulp.parallel('reload')
+    gulp.series(
+      'readmeInject:pages',
+      'reload'
     )
   );
 
   watch(['./*.scss'],
-    gulp.series('stylesInject',
+    gulp.series(
       gulp.parallel('styles')
     )
   );
 
   watch(['./pages/**/*.scss'],
-    gulp.series('stylesInject:pages',
+    gulp.series(
       gulp.parallel('styles:pages')
     )
   );
@@ -232,8 +232,15 @@ gulp.task('linksInject', async function (done) {
     .pipe(inject(
       gulp.src(['./pages/**/*.html'], { read: false }), {
       transform: function (filepath) {
-        if (filepath.slice(-5) === '.html') {
-          return '<li><a href="' + filepath + '">' + filepath + '</a></li>';
+          if (filepath.slice(-5) === '.html') {
+            let splittedString = filepath.split('/');
+            if (splittedString.length > 1 && splittedString[2]) {
+              let titledString = splittedString[2].replace(/-/g, ' ');
+              titledString = titledString.charAt(0).toUpperCase() + titledString.slice(1)
+              return '<li><a href="' + filepath + '">' + titledString + '</a></li>';
+            } else {
+              return '<li><a href="' + filepath + '">' + filepath + '</a></li>';
+            }
         }
         // Use the default transform as fallback:
         return inject.transform.apply(inject.transform, arguments);
@@ -270,7 +277,7 @@ gulp.task('twig:readme', function () {
 
 gulp.task('readmeInject',  function (done) {
   gulp.src('./index.html')
-    .pipe(inject(gulp.src(['./readme.md'], { allowEmpty: true }), {
+    .pipe(inject(gulp.src(['./introduction.md'], { allowEmpty: true }), {
       starttag: '<!-- inject:readme:md -->',
       transform: function (filepath, file) {
         return marked(file.contents.toString());
@@ -315,93 +322,93 @@ gulp.task('readmeInject:pages', function (done) {
 
 });
 
-gulp.task('scriptInject',  function (done) {
-  gulp.src('./index.html')
-    .pipe(inject(gulp.src(['./script.js']), {
-      starttag: '<!-- inject:script:js -->',
-      transform: function (filepath, file) {
-        return (file.contents.toString('utf8').trim());
-      }
-    }))
-    .pipe(gulp.dest('./'));
-  done();
-});
+// gulp.task('scriptInject', async function (done) {
+//   gulp.src('./index.html')
+//     .pipe(inject(gulp.src(['./script.js']), {
+//       starttag: '<!-- inject:script:js -->',
+//       transform: function (filepath, file) {
+//         return (file.contents.toString('utf8').trim());
+//       }
+//     }))
+//     .pipe(gulp.dest('./'));
+//   done();
+// });
 
-gulp.task('scriptInject:pages',  function (done) {
-  try {
-    allPages = [];
-    const pagesFolder = path.join(__dirname, 'pages');
-    fs.readdirSync(pagesFolder).forEach(function (file) {
-      allPages.push(file);
-    });
-  } catch (e) {
-    console.log(e.message);
-  }
+// gulp.task('scriptInject:pages', async function (done) {
+//   try {
+//     allPages = [];
+//     const pagesFolder = path.join(__dirname, 'pages');
+//     fs.readdirSync(pagesFolder).forEach(function (file) {
+//       allPages.push(file);
+//     });
+//   } catch (e) {
+//     console.log(e.message);
+//   }
 
-  if (allPages.length > 0) {
-    allPages.forEach(function (_page) {
-      gulp.src(`./pages/${_page}/index.html`)
-        .pipe(inject(
-          gulp.src([`./pages/${_page}/script.js`]), {
-          starttag: '<!-- inject:script:js -->',
-          transform: function (filepath, file) {
-            return (file.contents.toString('utf8').trim());
-          },
-          relative: false,
-          ignorePath: './node_modules',
-          addRootSlash: false,
-        }
-        ))
-        .pipe(gulp.dest(`./pages/${_page}`));
-    })
-  }
-  done();
-});
+//   if (allPages.length > 0) {
+//     allPages.forEach(function (_page) {
+//       gulp.src(`./pages/${_page}/index.html`)
+//         .pipe(inject(
+//           gulp.src([`./pages/${_page}/script.js`]), {
+//           starttag: '<!-- inject:script:js -->',
+//           transform: function (filepath, file) {
+//             return (file.contents.toString('utf8').trim());
+//           },
+//           relative: false,
+//           ignorePath: './node_modules',
+//           addRootSlash: false,
+//         }
+//         ))
+//         .pipe(gulp.dest(`./pages/${_page}`));
+//     })
+//   }
+//   done();
+// });
 
-gulp.task('stylesInject',  function (done) {
-  gulp.src('./index.html')
-    .pipe(inject(gulp.src(['./style.scss']), {
-      starttag: '<!-- inject:styles:scss -->',
-      transform: function (filepath, file) {
-        return (file.contents.toString('utf8').trim());
-      }
-    }))
-    .pipe(gulp.dest('./'));
-  done();
-});
+// gulp.task('stylesInject', async function (done) {
+//   gulp.src('./index.html')
+//     .pipe(inject(gulp.src(['./style.scss']), {
+//       starttag: '<!-- inject:styles:scss -->',
+//       transform: function (filepath, file) {
+//         return (file.contents.toString('utf8').trim());
+//       }
+//     }))
+//     .pipe(gulp.dest('./'));
+//   done();
+// });
 
-gulp.task('stylesInject:pages',  function (done) {
-  try {
-    allPages = [];
-    const pagesFolder = path.join(__dirname, 'pages');
-    fs.readdirSync(pagesFolder).forEach(function (file) {
-      allPages.push(file);
-    });
-  } catch (e) {
-    console.log(e.message);
-  }
+// gulp.task('stylesInject:pages', async  function (done) {
+//   try {
+//     allPages = [];
+//     const pagesFolder = path.join(__dirname, 'pages');
+//     fs.readdirSync(pagesFolder).forEach(function (file) {
+//       allPages.push(file);
+//     });
+//   } catch (e) {
+//     console.log(e.message);
+//   }
 
-  if (allPages.length > 0) {
-    allPages.forEach(function (_page) {
-      gulp.src(`./pages/${_page}/index.html`)
-        .pipe(inject(
-          gulp.src([`./pages/${_page}/style.scss`]), {
-          starttag: '<!-- inject:styles:scss -->',
-          transform: function (filepath, file) {
-            return (file.contents.toString('utf8').trim());
-          },
-          relative: false,
-          ignorePath: './node_modules',
-          addRootSlash: false,
-        }
-        ))
-        .pipe(gulp.dest(`./pages/${_page}`));
-    })
-  }
-  done();
-});
+//   if (allPages.length > 0) {
+//     allPages.forEach(function (_page) {
+//       gulp.src(`./pages/${_page}/index.html`)
+//         .pipe(inject(
+//           gulp.src([`./pages/${_page}/style.scss`]), {
+//           starttag: '<!-- inject:styles:scss -->',
+//           transform: function (filepath, file) {
+//             return (file.contents.toString('utf8').trim());
+//           },
+//           relative: false,
+//           ignorePath: './node_modules',
+//           addRootSlash: false,
+//         }
+//         ))
+//         .pipe(gulp.dest(`./pages/${_page}`));
+//     })
+//   }
+//   done();
+// });
 
-gulp.task('generate', gulp.series(gulp.parallel('twig:html', 'twig:scss', 'twig:script', 'twig:readme'), 'linksInject', 'readmeInject:pages', 'scriptInject:pages', 'stylesInject:pages'));
+gulp.task('generate', gulp.series(gulp.parallel('twig:html', 'twig:scss', 'twig:script', 'twig:readme'), 'linksInject'));
 
 gulp.task('clone-page', function () {
   if (!clonefrom) {

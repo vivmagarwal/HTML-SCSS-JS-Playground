@@ -3,18 +3,6 @@
   padding-left: 4rem;
 }
 
-pre.injected-code {
-  display: block;
-  padding: 1rem 1.5rem;
-  white-space: pre;
-  padding: 1rem 1.5rem;
-  margin: 0 1rem 2rem;
-  font-size: 90%;
-  background: #F1F1F1;
-  border: 1px solid #E1E1E1;
-  border-radius: 4px;
-}
-
-h5 {
-  margin-bottom: 0.5rem;
+a {
+  text-decoration: none;
 }
