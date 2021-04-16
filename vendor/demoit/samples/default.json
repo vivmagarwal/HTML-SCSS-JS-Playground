@@ -1,0 +1,50 @@
+{
+  "editor": {
+    "theme": "light",
+    "statusBar": true,
+    "layout": {
+      "elements": [
+        {
+          "name": "editor",
+          "elements": []
+        },
+        {
+          "elements": [
+            {
+              "name": "HTML",
+              "elements": []
+            },
+            {
+              "name": "console",
+              "elements": []
+            }
+          ],
+          "direction": "horizontal"
+        }
+      ],
+      "direction": "vertical"
+    }
+  },
+  "dependencies": [],
+  "files": {
+    "working": [
+      [
+        "code.js",
+        {
+          "c": "console.log(\"Hello world ji\");",
+          "en": true
+        }
+      ],
+      [
+        "codex.js",
+        {
+          "c": "console.log(\"Hello world jixxx\");"
+        }
+      ]
+    ],
+    "head": null,
+    "i": 0,
+    "stage": [],
+    "commits": {}
+  }
+}

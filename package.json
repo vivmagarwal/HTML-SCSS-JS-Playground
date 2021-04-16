@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "web-pack": "webpack --config webpack.config.js",
     "watch": "gulp watch",
-    "watch:node": "nodemon localhost 5656",
+    "start": "gulp watch",
+    "watch:node": "nodemon --experimental-modules",
+    "start:node": "nodemon --experimental-modules",
     "gp:nostyle": "gulp generate --page",
     "generate:page": "gulp generate --page",
     "generate:styledpage": "gulp generate --withstyle --page",
@@ -16,7 +19,7 @@
     "rebuildindex": "gulp linksInject",
     "ri": "npm run rebuildindex",
     "readme:inject": "gulp readmeInject",
-    "readme:inject:pages": "gulp readmeInject:pages" 
+    "readme:inject:pages": "gulp readmeInject:pages"
   },
   "author": "Vivek Agarwal",
   "license": "ISC",
@@ -24,6 +27,7 @@
     "dompurify": "^2.2.6",
     "gulp-autoprefixer": "^7.0.0",
     "gulp-sourcemaps": "^2.6.5",
+    "highlight.js": "^10.6.0",
     "jquery": "^3.5.0",
     "marked": "^2.0.0",
     "normalize.css": "^8.0.1",
@@ -33,7 +37,7 @@
     "@babel/core": "^7.6.0",
     "@babel/preset-env": "^7.6.0",
     "babel-loader": "^8.0.6",
-    "browser-sync": "^2.26.7",
+    "browser-sync": "^2.26.14",
     "gulp": "^4.0.2",
     "gulp-data": "^1.3.1",
     "gulp-inject": "^5.0.5",
@@ -45,8 +49,7 @@
     "kebab-case": "^1.0.0",
     "node-sass": "^4.13.1",
     "nodemon": "^2.0.6",
-    "webpack": "^4.40.2",
-    "webpack-cli": "^3.3.9",
+    "webpack-cli": "latest",
     "yargs": "^16.1.1"
   }
 }

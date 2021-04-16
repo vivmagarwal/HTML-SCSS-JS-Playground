@@ -1,0 +1,106 @@
+.main-content {
+  padding-top: 2rem;
+  padding-left: 4rem;
+}
+
+body {
+  padding-bottom: 10rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+blockquote {
+  position: relative;
+  padding-left: 1rem;
+  border-left: 0.4rem solid #1EAEDB;
+  font-size: 1.6rem;
+  line-height: 1.5em;
+  font-weight: 100;
+  margin-left: 1rem;
+}
+
+pre {
+  margin-top: 0.3125rem;
+}
+
+pre code {
+  display: block;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 10pt;
+  overflow-x: auto;
+  padding: 0.5em;
+  scrollbar-width: thin;
+  -moz-tab-size: 2;
+  tab-size: 2;
+  display: block;
+  overflow-x: auto;
+  color: #2f3337;
+  background: #f6f6f6;
+  padding: .5em;
+}
+
+code.language-bash {
+  background: #1d1f21;
+  color: #c5c8c6;
+}
+
+h1 {
+  font-size: 4.8rem;
+}
+
+h2 {
+  font-size: 3rem;
+  font-weight: 500;
+  margin-top: 5rem;
+}
+
+h3 {
+  font-size: 2.15rem;
+  color: #2f3337;
+  border-top: 1px solid #5e656b;
+  border-bottom: 1px solid #5e656b;
+  font-weight: 400;
+  text-align: center;
+  margin-top: 4rem;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+h4 {
+  font-size: 1.75rem;
+  color: #5e656b;
+}
+
+img, iframe {
+  max-width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+p {
+  margin-top: 2rem;
+  margin-bottom: .15rem;
+}
+
+.flems-wrapper {
+  margin: 20px 40px;
+  /* height: 400px; */
+  box-shadow: 0 0 20px rgb(0 0 0 / 35%);
+}
+
+.circle-yellow {
+  background: #FCE06F;
+  border-radius: 0.8em;
+  -moz-border-radius: 0.8em;
+  -webkit-border-radius: 0.8em;
+  color: black;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 1.6em;
+  margin-right: 2px;
+  text-align: center;
+  width: 1.6em; 
+}

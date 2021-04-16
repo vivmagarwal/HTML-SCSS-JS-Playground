@@ -1,0 +1,47 @@
+{
+  "editor": {
+    "theme": "light",
+    "statusBar": true,
+    "layout": {
+      "name": "default",
+      "direction": "horizontal",
+      "sizes": [
+        30,
+        70
+      ],
+      "elements": [
+        {
+          "direction": "vertical",
+          "sizes": [
+            50,
+            50
+          ],
+          "elements": [
+            "output",
+            "log"
+          ]
+        },
+        "editor"
+      ]
+    }
+  },
+  "dependencies": [],
+  "files": [
+    {
+      "content": "import 'styles.css';\nimport 'markup.html';",
+      "filename": "app.js",
+      "editing": false,
+      "entryPoint": true
+    },
+    {
+      "content": "h1 {\n  color: purple;\n}",
+      "filename": "styles.css",
+      "editing": false
+    },
+    {
+      "content": "<h1>Hello app</h1>",
+      "filename": "markup.html",
+      "editing": false
+    }
+  ]
+}

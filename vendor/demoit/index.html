@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Demoit</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="shortcut icon" type="image/png" href="./img/demoit_64x64.png"/>
+  <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Roboto:400,700&amp;subset=cyrillic" rel="stylesheet">
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+</head>
+<body>
+  <script type="text/template" id="template-html">
+    <div class="editor-section output" id="output">
+      <iframe src="./sandbox.html" id="sandbox" style="display: block; width:100%; height: 100%; border:0; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin allow-top-navigation-by-user-activation"></iframe>
+    </div>
+  </script>
+
+  <script type="text/template" id="template-story-preview">
+    <div class="editor-section" id="preview"></div>
+  </script>
+
+  <script type="text/template" id="template-story-read-only">
+    <div class="editor-section read-only">
+      <div></div>
+      <div class="centered"><div class="spinner"></div></div>
+    </div>
+  </script>
+
+  <script type="text/template" id="template-annotate">
+    <div class="editor-section" id="annotate"></div>
+  </script>
+
+  <script type="text/template" id="template-console">
+    <div class="editor-section console">
+      <div class="centered">console.log</div>
+    </div>
+  </script>
+
+  <script type="text/template" id="template-editor">
+    <div class="editor-section editor">
+      <div class="js-code-editor"><div class="centered"><div class="spinner"></div></div></div>
+    </div>
+  </script>
+
+  <script type="text/template" id="template-story">
+    <div class="editor-section story">
+      <div></div>
+      <div class="centered"><div class="spinner"></div></div>
+    </div>
+  </script>
+
+  <div class="app">
+    <div class="status-bar"></div>
+    <div class="layout"></div>
+    <div class="status-bar-menu"></div>
+  </div>
+
+  <script>var state = null;</script>
+  <script src="./demoit.js"></script>
+
+  <script id="ga"></script>
+
+</body>
+</html>

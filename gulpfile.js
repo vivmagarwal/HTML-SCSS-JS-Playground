@@ -6,12 +6,13 @@ const gulp = require("gulp"),
   autoprefixer = require('gulp-autoprefixer'),
   browserSync = require('browser-sync').create(),
   { argv } = require('yargs');
-  kc = require('kebab-case'),
+kc = require('kebab-case'),
   inject = require('gulp-inject'),
   plumber = require('gulp-plumber'),
   data = require('gulp-data'),
   twig = require('gulp-twig'),
   path = require('path'),
+  hljs = require('highlight.js'),
   marked = require('marked'),
   fs = require('fs');
 
@@ -65,13 +66,13 @@ gulp.task('reload', async function reload() {
     server: {
       baseDir: "./"
     }
-  }, function() {
+  }, function () {
     browserSync.reload();
   });
 });
 
 gulp.task('styles', function styles() {
-  return gulp.src('./*.scss')
+  return gulp.src('./*.scss', { allowEmpty: true })
     .pipe(sourcemaps.init())
     .pipe(sassGlob())
     .pipe(sass.sync({ outputStyle: 'expanded', includePaths: ['node_modules'] }).on('error', sass.logError))
@@ -82,7 +83,7 @@ gulp.task('styles', function styles() {
 });
 
 gulp.task('styles:pages', function styles() {
-  return gulp.src(['./pages/**/*.scss'])
+  return gulp.src(['./pages/**/*.scss'], { allowEmpty: true })
     .pipe(sourcemaps.init())
     .pipe(sassGlob())
     .pipe(sass.sync({ outputStyle: 'expanded' }).on('error', sass.logError))
@@ -93,7 +94,7 @@ gulp.task('styles:pages', function styles() {
 });
 
 gulp.task('cssInject', function cssInject() {
-  return gulp.src('./*.scss')
+  return gulp.src('./*.scss', { allowEmpty: true })
     .pipe(browserSync.stream())
 });
 
@@ -105,7 +106,7 @@ gulp.task('watch', function () {
     }
   });
 
-  watch(['index.html'],
+  watch(['index.html'], 
     gulp.series(
       gulp.parallel('reload')
     )
@@ -160,7 +161,7 @@ gulp.task('twig:html', function () {
     throw new Error('Incorrect page name!');
   }
 
-  return gulp.src('./_templates/index.twig')
+  return gulp.src('./_templates/index.twig', { allowEmpty: true })
     // Stay live and reload on error
     .pipe(plumber({
       handleError: function (err) {
@@ -203,6 +204,20 @@ gulp.task('twig:scss', function () {
     .pipe(gulp.dest(path.join(__dirname, 'pages', page)));
 });
 
+gulp.task('twig:css', async function () {
+  if (!page) {
+    throw new Error('Incorrect page name!');
+  }
+
+  try {
+    await fs.writeFile(path.join(__dirname, 'pages', page, 'style.css'), '', (error) => {
+      console.log(error);
+    });  
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 gulp.task('twig:script', function () {
   if (!page) {
     throw new Error('Incorrect page name!');
@@ -228,19 +243,19 @@ gulp.task('twig:script', function () {
 });
 
 gulp.task('linksInject', async function (done) {
-  gulp.src('./index.html')
+  gulp.src('./index.html', { allowEmpty: true })
     .pipe(inject(
-      gulp.src(['./pages/**/*.html'], { read: false }), {
+      gulp.src(['./pages/**/*.html'], { read: false, allowEmpty: true }), {
       transform: function (filepath) {
-          if (filepath.slice(-5) === '.html') {
-            let splittedString = filepath.split('/');
-            if (splittedString.length > 1 && splittedString[2]) {
-              let titledString = splittedString[2].replace(/-/g, ' ');
-              titledString = titledString.charAt(0).toUpperCase() + titledString.slice(1)
-              return '<li><a href="' + filepath + '">' + titledString + '</a></li>';
-            } else {
-              return '<li><a href="' + filepath + '">' + filepath + '</a></li>';
-            }
+        if (filepath.slice(-5) === '.html') {
+          let splittedString = filepath.split('/');
+          if (splittedString.length > 1 && splittedString[2]) {
+            let titledString = splittedString[2].replace(/-/g, ' ');
+            titledString = titledString.charAt(0).toUpperCase() + titledString.slice(1)
+            return '<li><a href="' + filepath.substring(1) + '">' + titledString + '</a></li>';
+          } else {
+            return '<li><a href="' + filepath.substring(1) + '">' + filepath + '</a></li>';
+          }
         }
         // Use the default transform as fallback:
         return inject.transform.apply(inject.transform, arguments);
@@ -275,12 +290,40 @@ gulp.task('twig:readme', function () {
     .pipe(gulp.dest(path.join(__dirname, 'pages', page)));
 });
 
-gulp.task('readmeInject',  function (done) {
-  gulp.src('./index.html')
+gulp.task('twig:classdiagram', function () {
+  if (!page) {
+    throw new Error('Incorrect page name!');
+  }
+
+  return gulp.src('./_templates/classdiagram.twig', { allowEmpty: true })
+    // Stay live and reload on error
+    .pipe(plumber({
+      handleError: function (err) {
+        console.log(err);
+        this.emit('end');
+      }
+    }))
+    .pipe(data({ title: page, withstyle: withstyle }))
+    .pipe(twig({
+      extname: '.duml'
+    }))
+    .on('error', function (err) {
+      process.stderr.write(err.message + '\n');
+      this.emit('end');
+    })
+    .pipe(gulp.dest(path.join(__dirname, 'pages', page)));
+});
+
+gulp.task('readmeInject', function (done) {
+  gulp.src('./index.html', { allowEmpty: true })
     .pipe(inject(gulp.src(['./introduction.md'], { allowEmpty: true }), {
       starttag: '<!-- inject:readme:md -->',
       transform: function (filepath, file) {
-        return marked(file.contents.toString());
+        return marked(file.contents.toString(), {
+          highlight: function (code, lang = 'js' ) {
+            return hljs.highlight(lang || 'js', code).value;
+          }
+        });
       }
     }))
     .pipe(gulp.dest('./'));
@@ -301,12 +344,16 @@ gulp.task('readmeInject:pages', function (done) {
 
   if (allPages.length > 0) {
     allPages.forEach(function (_page) {
-      gulp.src(`./pages/${_page}/index.html`)
+      gulp.src(`./pages/${_page}/index.html`, { allowEmpty: true })
         .pipe(inject(
           gulp.src([`./pages/${_page}/readme.md`], { allowEmpty: true }), {
           starttag: '<!-- inject:readme:md -->',
           transform: function (filepath, file) {
-            return marked(file.contents.toString());
+            return marked(file.contents.toString(), {
+              highlight: function (code, lang="js") {
+                return hljs.highlight(lang || 'js', code).value;
+              }
+            });
           },
           relative: false,
           ignorePath: './node_modules',
@@ -408,7 +455,7 @@ gulp.task('readmeInject:pages', function (done) {
 //   done();
 // });
 
-gulp.task('generate', gulp.series(gulp.parallel('twig:html', 'twig:scss', 'twig:script', 'twig:readme'), 'linksInject'));
+gulp.task('generate', gulp.series(gulp.parallel('twig:html', 'twig:scss', 'twig:script', 'twig:readme', 'twig:classdiagram'), 'twig:css', 'linksInject'));
 
 gulp.task('clone-page', function () {
   if (!clonefrom) {
@@ -416,7 +463,7 @@ gulp.task('clone-page', function () {
   }
 
   return gulp
-    .src(path.join(__dirname, 'pages', clonefrom, '*'))
+    .src(path.join(__dirname, 'pages', clonefrom, '*'), { allowEmpty: true })
     .pipe(gulp.dest(path.join(__dirname, 'pages', cloneto)))
 });
 

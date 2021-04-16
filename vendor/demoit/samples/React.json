@@ -1,0 +1,50 @@
+{
+  "editor": {
+    "theme": "light",
+    "statusBar": true,
+    "layout": {
+      "name": "layoutBottom",
+      "direction": "vertical",
+      "sizes": [
+        70,
+        30
+      ],
+      "elements": [
+        "editor",
+        {
+          "direction": "horizontal",
+          "sizes": [
+            50,
+            50
+          ],
+          "elements": [
+            "output",
+            "log"
+          ]
+        }
+      ]
+    }
+  },
+  "dependencies": [
+    "./resources/react-16.7.0-alpha.0.js",
+    "./resources/react-dom.16.7.0-alpha.0.js"
+  ],
+  "files": [
+    {
+      "filename": "ReactHooks.js",
+      "content": "import Title from 'Title.js';\nimport 'styles.css';\n\nconst useState = React.useState;\n\nconst App = function () {\n  const [ count, change ] = useState(0);\n  console.log(`count is: ${ count }`);\n  return (\n  \t<section>\n      <Title count={ count } />\n      <button onClick={ () => change(count + 1) }>\n        Click me\n      </button>\n    </section>\n  )\n}\n\nReactDOM.render(<App />, document.querySelector('.output'));\n",
+      "editing": false,
+      "entryPoint": true
+    },
+    {
+      "content": "export default function Title({ count }) {\n  return <h1>Counter: { count }</h1>;\n}",
+      "filename": "Title.js",
+      "editing": false
+    },
+    {
+      "content": "h1 {\n\tfont-family: Tahoma; \n}",
+      "filename": "styles.css",
+      "editing": false
+    }
+  ]
+}

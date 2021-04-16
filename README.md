@@ -1,4 +1,5 @@
-# An HTML SCSS and JAVASCIPT Playground for developers.
+## Online Ebook: [Online Javascript Patterns EBook](https://vivmagarwal.github.io/js-design-patterns/)
+### How to use this Playground on your local.
 
 I prefer this against online platforms for four main reasons :
 1. Its easier to use browsers dev tools to debug things
@@ -43,3 +44,12 @@ it will automatically get a name. In case you want to specify a name, please use
 
 ### Rebuild Index of pages in the index HTML file.
 `npm run rebuildindex` or `npm run ri`
+
+### ES Modules vs CommonJS Modules
+We use ES Modules in this project. Please use the ES module syntax to import export modules. Example:
+```
+export { Scoreboard };
+```
+```
+import { Scoreboard as ScoreBoard } from './Scoreboard.js'
+```

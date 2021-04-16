@@ -1,0 +1,60 @@
+{
+  "editor": {
+    "theme": "dark",
+    "statusBar": true,
+    "layout": {
+      "elements": [
+        {
+          "name": "editor",
+          "elements": []
+        },
+        {
+          "elements": [
+            {
+              "name": "console",
+              "elements": []
+            }
+          ]
+        }
+      ],
+      "direction": "vertical",
+      "sizes": [
+        65,
+        35
+      ]
+    }
+  },
+  "dependencies": [],
+  "files": {
+    "working": [
+      [
+        "code.js",
+        {
+          "c": "let func=new Function(`let name='John Doe';\n  console.log(name);`\n)\nfunc();",
+          "en": true
+        }
+      ],
+      [
+        "markup.html",
+        {
+          "c": "<p style=\"color: red;\">I am red!</p>",
+          "en": false
+        }
+      ],
+      [
+        "styles.css",
+        {
+          "c": "body {\n  font-size: 24px;\n  padding: 0;\n  margin: 0;\n}",
+          "en": false
+        }
+      ]
+    ],
+    "head": null,
+    "i": 0,
+    "stage": [],
+    "commits": {}
+  },
+  "v": "6.5.1",
+  "name": ""
+}
+

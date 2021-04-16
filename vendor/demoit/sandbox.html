@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-control" content="public">
+    <title>Demoit</title>
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <script src='./resources/regenerator-runtime.js'></script>
+    <style>
+      html, body, div, span, applet, object, iframe,
+      h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+      a, abbr, acronym, address, big, cite, code,
+      del, dfn, em, font, img, ins, kbd, q, s, samp,
+      small, strike, strong, sub, sup, tt, var,
+      dl, dt, dd, ol, ul, li,
+      fieldset, form, label, legend,
+      table, caption, tbody, tfoot, thead, tr, th, td {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        outline: 0;
+        font-weight: inherit;
+        font-style: inherit;
+        font-size: 100%;
+        font-family: "Fira Mono", monospace;
+        vertical-align: baseline;
+      }
+      *, *:before, *:after {
+        box-sizing: border-box;
+      }
+      /* remember to define focus styles! */
+      :focus {
+        outline: 0;
+      }
+      html {
+        height: 100%;
+        width: 100%;
+      }
+      body {
+        line-height: 1;
+        color: black;
+        background: white;
+        height: 100%;
+        width: 100%;
+      }
+      ol, ul {
+        list-style: none;
+      }
+      /* tables still need 'cellspacing="0"' in the markup */
+      table {
+        border-collapse: separate;
+        border-spacing: 0;
+      }
+      caption, th, td {
+        text-align: left;
+        font-weight: normal;
+      }
+      blockquote:before, blockquote:after,
+      q:before, q:after {
+        content: "";
+      }
+      blockquote, q {
+        quotes: "" "";
+      }
+
+      .output {
+        height: 100%;
+        font-size: 100%;
+        vertical-align: baseline;
+      }
+      .centered {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      @keyframes bubble {
+        0%   { transform: scale(0.5); }
+        50%  { transform: scale(1.2); }
+        100% { transform: scale(0.5); }
+      }
+      @keyframes fadein {
+        0%   { opacity: 0 }
+        100% { opacity: 1 }
+      }
+      .spinner {
+        width: 20px;
+        height: 20px;
+        background: #999;
+        border-radius: 10px;
+        opacity: 0;
+        animation: bubble 1.0s infinite, fadein 3.0s;
+        -webkit-animation: bubble 1.0s infinite, fadein 3.0s;
+      }
+      .m {
+        padding: 2em;
+      }
+    </style>
+    <style>
+      @font-face{font-family:octicons-link;src:url(data:font/woff;charset=utf-8;base64,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) format('woff')}.m{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;line-height:1.5;color:#24292e;font-family:-apple-system,BlinkMacSystemFont,segoe ui,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;font-size:16px;line-height:1.5;word-wrap:break-word}.m .pl-c{color:#6a737d}.m .pl-c1,.m .pl-s .pl-v{color:#005cc5}.m .pl-e,.m .pl-en{color:#6f42c1}.m .pl-smi,.m .pl-s .pl-s1{color:#24292e}.m .pl-ent{color:#22863a}.m .pl-k{color:#d73a49}.m .pl-s,.m .pl-pds,.m .pl-s .pl-pse .pl-s1,.m .pl-sr,.m .pl-sr .pl-cce,.m .pl-sr .pl-sre,.m .pl-sr .pl-sra{color:#032f62}.m .pl-v,.m .pl-smw{color:#e36209}.m .pl-bu{color:#b31d28}.m .pl-ii{color:#fafbfc;background-color:#b31d28}.m .pl-c2{color:#fafbfc;background-color:#d73a49}.m .pl-c2::before{content:"^M"}.m .pl-sr .pl-cce{font-weight:700;color:#22863a}.m .pl-ml{color:#735c0f}.m .pl-mh,.m .pl-mh .pl-en,.m .pl-ms{font-weight:700;color:#005cc5}.m .pl-mi{font-style:italic;color:#24292e}.m .pl-mb{font-weight:700;color:#24292e}.m .pl-md{color:#b31d28;background-color:#ffeef0}.m .pl-mi1{color:#22863a;background-color:#f0fff4}.m .pl-mc{color:#e36209;background-color:#ffebda}.m .pl-mi2{color:#f6f8fa;background-color:#005cc5}.m .pl-mdr{font-weight:700;color:#6f42c1}.m .pl-ba{color:#586069}.m .pl-sg{color:#959da5}.m .pl-corl{text-decoration:underline;color:#032f62}.m .octicon{display:inline-block;vertical-align:text-top;fill:currentColor}.m a{background-color:transparent}.m a:active,.m a:hover{outline-width:0}.m strong{font-weight:inherit}.m strong{font-weight:bolder}.m h1{font-size:2em;margin:.67em 0}.m img{border-style:none}.m code,.m kbd,.m pre{font-family:monospace,monospace;font-size:1em}.m hr{box-sizing:content-box;height:0;overflow:visible}.m input{font:inherit;margin:0}.m input{overflow:visible}.m [type=checkbox]{box-sizing:border-box;padding:0}.m *{box-sizing:border-box}.m input{font-family:inherit;font-size:inherit;line-height:inherit}.m a{color:#0366d6;text-decoration:none}.m a:hover{text-decoration:underline}.m strong{font-weight:600}.m hr{height:0;margin:15px 0;overflow:hidden;background:0 0;border:0;border-bottom:1px solid #dfe2e5}.m hr::before{display:table;content:""}.m hr::after{display:table;clear:both;content:""}.m table{border-spacing:0;border-collapse:collapse}.m td,.m th{padding:0}.m h1,.m h2,.m h3,.m h4,.m h5,.m h6{margin-top:0;margin-bottom:0}.m h1{font-size:32px;font-weight:600}.m h2{font-size:24px;font-weight:600}.m h3{font-size:20px;font-weight:600}.m h4{font-size:16px;font-weight:600}.m h5{font-size:14px;font-weight:600}.m h6{font-size:12px;font-weight:600}.m p{margin-top:0;margin-bottom:10px}.m blockquote{margin:0}.m ul,.m ol{padding-left:0;margin-top:0;margin-bottom:0}.m ol ol,.m ul ol{list-style-type:lower-roman}.m ul ul ol,.m ul ol ol,.m ol ul ol,.m ol ol ol{list-style-type:lower-alpha}.m dd{margin-left:0}.m code{font-family:sfmono-regular,Consolas,liberation mono,Menlo,Courier,monospace;font-size:12px}.m pre{margin-top:0;margin-bottom:0;font-family:sfmono-regular,Consolas,liberation mono,Menlo,Courier,monospace;font-size:12px}.m .octicon{vertical-align:text-bottom}.m .pl-0{padding-left:0!important}.m .pl-1{padding-left:4px!important}.m .pl-2{padding-left:8px!important}.m .pl-3{padding-left:16px!important}.m .pl-4{padding-left:24px!important}.m .pl-5{padding-left:32px!important}.m .pl-6{padding-left:40px!important}.m::before{display:table;content:""}.m::after{display:table;clear:both;content:""}.m>*:first-child{margin-top:0!important}.m>*:last-child{margin-bottom:0!important}.m a:not([href]){color:inherit;text-decoration:none}.m .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.m .anchor:focus{outline:none}.m p,.m blockquote,.m ul,.m ol,.m dl,.m table,.m pre{margin-top:0;margin-bottom:16px}.m hr{height:.25em;padding:0;margin:24px 0;background-color:#e1e4e8;border:0}.m blockquote{padding:0 1em;color:#6a737d;border-left:.25em solid #dfe2e5}.m blockquote>:first-child{margin-top:0}.m blockquote>:last-child{margin-bottom:0}.m kbd{display:inline-block;padding:3px 5px;font-size:11px;line-height:10px;color:#444d56;vertical-align:middle;background-color:#fafbfc;border:solid 1px #c6cbd1;border-bottom-color:#959da5;border-radius:3px;box-shadow:inset 0 -1px 0 #959da5}.m h1,.m h2,.m h3,.m h4,.m h5,.m h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}.m h1 .octicon-link,.m h2 .octicon-link,.m h3 .octicon-link,.m h4 .octicon-link,.m h5 .octicon-link,.m h6 .octicon-link{color:#1b1f23;vertical-align:middle;visibility:hidden}.m h1:hover .anchor,.m h2:hover .anchor,.m h3:hover .anchor,.m h4:hover .anchor,.m h5:hover .anchor,.m h6:hover .anchor{text-decoration:none}.m h1:hover .anchor .octicon-link,.m h2:hover .anchor .octicon-link,.m h3:hover .anchor .octicon-link,.m h4:hover .anchor .octicon-link,.m h5:hover .anchor .octicon-link,.m h6:hover .anchor .octicon-link{visibility:visible}.m h1{padding-bottom:.3em;font-size:2em;border-bottom:1px solid #eaecef}.m h2{padding-bottom:.3em;font-size:1.5em;border-bottom:1px solid #eaecef}.m h3{font-size:1.25em}.m h4{font-size:1em}.m h5{font-size:.875em}.m h6{font-size:.85em;color:#6a737d}.m ul,.m ol{padding-left:2em}.m ul ul,.m ul ol,.m ol ol,.m ol ul{margin-top:0;margin-bottom:0}.m li{word-wrap:break-all}.m li>p{margin-top:16px}.m li+li{margin-top:.25em}.m dl{padding:0}.m dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:600}.m dl dd{padding:0 16px;margin-bottom:16px}.m table{display:block;width:100%;overflow:auto}.m table th{font-weight:600}.m table th,.m table td{padding:6px 13px;border:1px solid #dfe2e5}.m table tr{background-color:#fff;border-top:1px solid #c6cbd1}.m table tr:nth-child(2n){background-color:#f6f8fa}.m img{max-width:100%;box-sizing:content-box;background-color:#fff}.m img[align=right]{padding-left:20px}.m img[align=left]{padding-right:20px}.m code{padding:.2em .4em;margin:0;font-size:85%;background-color:rgba(27,31,35,.05);border-radius:3px}.m pre{word-wrap:normal}.m pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:0 0;border:0}.m .highlight{margin-bottom:16px}.m .highlight pre{margin-bottom:0;word-break:normal}.m .highlight pre,.m pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f6f8fa;border-radius:3px}.m pre code{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}.m .full-commit .btn-outline:not(:disabled):hover{color:#005cc5;border-color:#005cc5}.m kbd{display:inline-block;padding:3px 5px;font:11px sfmono-regular,Consolas,liberation mono,Menlo,Courier,monospace;line-height:10px;color:#444d56;vertical-align:middle;background-color:#fafbfc;border:solid 1px #d1d5da;border-bottom-color:#c6cbd1;border-radius:3px;box-shadow:inset 0 -1px 0 #c6cbd1}.m :checked+.radio-label{position:relative;z-index:1;border-color:#0366d6}.m .task-list-item{list-style-type:none}.m .task-list-item+.task-list-item{margin-top:3px}.m .task-list-item input{margin:0 .2em .25em -1.6em;vertical-align:middle}.m hr{border-bottom-color:#eee}
+    </style>
+  </head>
+<body>
+  <div id="output" class="output"></div>
+  <script>
+
+    var HINT = '<div class="centered">&lt;div id="output" /&gt;</div>';
+    var SPINNER = '<div class="centered"><div class="spinner"></div></div>';
+    var container = document.querySelector('#output');
+    var operationSuccessful = function (marker) {
+      window.parent.postMessage({ marker: marker }, '*');
+    }
+    var logMessage = function (message) {
+      window.parent.postMessage({ log: message }, '*');
+    }
+    var opMessage = function (op) {
+      window.parent.postMessage({ op: op }, '*');
+    }
+    var cleanUpOutput = function () {
+      while (container.firstChild) {
+        container.removeChild(container.firstChild);
+      }
+      container.innerHTML = '';
+    }
+
+    container.innerHTML = SPINNER;
+
+    window.onmessage = function(e) {
+      if (e.data && e.data.op) {
+        // console.log('--> ' + e.data.marker + ' ' + e.data.op);
+        switch(e.data.op) {
+          case 'html':
+            container.innerHTML = e.data.value;
+            operationSuccessful(e.data.marker);
+          break;
+          case 'reload':
+            window.location.reload();
+          break;
+          case 'dependencies':
+            loadDeps(e.data.value).then(function() {
+              operationSuccessful(e.data.marker);
+            });
+          break;
+          case 'code':
+            cleanUpOutput();
+            try {
+              (new Function('index', e.data.value.code))(e.data.value.entryPoint);
+            } catch(error) {
+              console.error(error);
+            }
+            operationSuccessful(e.data.marker);
+          break;
+        }
+      }
+    };
+
+    // DEPENDENCIES -------------------------------------------------------------
+
+    var addJSFile = function (path, done) {
+      var node = document.createElement('script');
+
+      node.src = path;
+      node.addEventListener('load', function () {
+        done();
+      });
+      setTimeout(function () {
+        document.body.appendChild(node);
+      }, 1);
+      return true;
+    };
+    var addCSSFile = function (path, done) {
+      var node = document.createElement('link');
+
+      node.setAttribute('rel', 'stylesheet');
+      node.setAttribute('type', 'text/css');
+      node.setAttribute('href', path);
+      node.addEventListener('load', function () {
+        done();
+      });
+      setTimeout(function () {
+        document.body.appendChild(node);
+      }, 1);
+      return true;
+    };
+
+    var LOADED_DEPS = {};
+    function loadDeps(dependencies) {
+      return new Promise(function (done) {
+        (function load(index) {
+          if (index === dependencies.length) {
+            done();
+            return;
+          }
+
+          var resource = dependencies[index];
+          var extension = resource.split('.').pop().toLowerCase();
+
+          if (LOADED_DEPS[resource]) {
+            load(index + 1);
+            return;
+          }
+
+          if (extension === 'js') {
+            addJSFile(resource, function () {
+              LOADED_DEPS[resource] = true;
+              load(index + 1);
+            });
+          } else if (extension === 'css') {
+            addCSSFile(resource, function() {
+              LOADED_DEPS[resource] = true;
+              load(index + 1);
+            });
+          } else {
+            fetch(resource).then(function(resultedResource) {
+              const contentType = resultedResource.headers.get('content-type');
+
+              if (contentType.indexOf('text/css') >= 0) {
+                addCSSFile(resource, function() {
+                  LOADED_DEPS[resource] = true;
+                  load(index + 1);
+                });
+              } else if (contentType.indexOf('application/javascript') >= 0) {
+                addJSFile(resource, function () {
+                  LOADED_DEPS[resource] = true;
+                  load(index + 1);
+                });
+              } else {
+                // console.error('Can not process ' + resource + '. Only text/css and application/javascript are supported.');
+                load(index + 1);
+              }
+            });
+          }
+        })(0);
+      });
+    };
+
+    // execute css, html and markdown -----------------------------------------
+
+    var guaranteeValidIdName = function (filename) { return filename.replace(/\./g, '_'); };
+
+    function executeCSS (filename, content) {
+      var node = document.createElement('style');
+  
+      node.setAttribute('id', guaranteeValidIdName(filename));
+      node.innerHTML = content;
+      setTimeout(function () {
+        document.body.appendChild(node);
+      }, 1);
+    };
+
+    function executeHTML (filename, content) {
+      var node = document.createElement('div');
+    
+      node.innerHTML = '<div>' + (content || ' ') + '</div>';
+      container.appendChild(node.firstChild);
+    };
+
+    function executeMarkdown(content) {
+      loadDeps(['./resources/marked@0.3.6.js']).then(function () {
+        cleanUpOutput();
+        container.innerHTML = '<div class="m">' + marked(content) + '</div>';
+      });
+    }
+
+    // console  -------------------------------------------------------------
+    
+    function addLog(something) {
+      var str;
+      if (something) {
+        try {
+          str = stringifyRecursion(something, undefined, 2).toString();
+        } catch(error) {
+          str = something.toString();
+        }
+        logMessage(str);
+      } else {
+        logMessage(String(something));
+      }
+    };
+  
+    (function () {
+      var originalError = console.error;
+      var originalLog = console.log;
+      var originalWarning = console.warn;
+      var originalInfo = console.info;
+      var originalClear = console.clear;
+  
+      console.error = function (error) {
+        addLog(error.stack ? error.stack : error.toString());
+        originalError.apply(console, arguments);
+      };
+      console.log = function () {
+        var args = Array.prototype.slice.call(arguments);
+        args.forEach(addLog);
+        originalLog.apply(console, args);
+      };
+      console.warn = function () {
+        var args = Array.prototype.slice.call(arguments);
+        args.forEach(addLog);
+        originalWarning.apply(console, args);
+      };
+      console.info = function () {
+        var args = Array.prototype.slice.call(arguments);
+        args.forEach(addLog);
+        originalInfo.apply(console, args);
+      };
+      console.clear = function (...args) {
+        opMessage('clean-console');
+        originalClear.apply(console, args);
+      };
+    })();
+
+    // init -------------------------------------------------------------
+    
+    operationSuccessful('loaded');
+    
+    // JSON parse  -------------------------------------------------------------
+
+    /*!
+    Copyright (C) 2013-2017 by Andrea Giammarchi - @WebReflection
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+    THE SOFTWARE.
+
+    */
+    var
+    specialChar = '~',
+    safeSpecialChar = '\\x' + (
+      '0' + specialChar.charCodeAt(0).toString(16)
+    ).slice(-2),
+    escapedSafeSpecialChar = '\\' + safeSpecialChar,
+    specialCharRG = new RegExp(safeSpecialChar, 'g'),
+    safeSpecialCharRG = new RegExp(escapedSafeSpecialChar, 'g'),
+
+    safeStartWithSpecialCharRG = new RegExp('(?:^|([^\\\\]))' + escapedSafeSpecialChar),
+
+    indexOf = [].indexOf || function(v){
+      for(var i=this.length;i--&&this[i]!==v;);
+      return i;
+    },
+    $String = String
+    ;
+
+    function generateReplacer(value, replacer, resolve) {
+      var
+        inspect = !!replacer,
+        path = [],
+        all  = [value],
+        seen = [value],
+        mapp = [resolve ? specialChar : '<circular>'],
+        last = value,
+        lvl  = 1,
+        i, fn
+      ;
+      if (inspect) {
+        fn = typeof replacer === 'object' ?
+          function (key, value) {
+            return key !== '' && replacer.indexOf(key) < 0 ? void 0 : value;
+          } :
+          replacer;
+      }
+      return function(key, value) {
+        if (inspect) value = fn.call(this, key, value);
+        if (key !== '') {
+          if (last !== this) {
+            i = lvl - indexOf.call(all, this) - 1;
+            lvl -= i;
+            all.splice(lvl, all.length);
+            path.splice(lvl - 1, path.length);
+            last = this;
+          }
+          if (typeof value === 'object' && value) {
+            if (indexOf.call(all, value) < 0) {
+              all.push(last = value);
+            }
+            lvl = all.length;
+            i = indexOf.call(seen, value);
+            if (i < 0) {
+              i = seen.push(value) - 1;
+              if (resolve) {
+                path.push(('' + key).replace(specialCharRG, safeSpecialChar));
+                mapp[i] = specialChar + path.join(specialChar);
+              } else {
+                mapp[i] = mapp[0];
+              }
+            } else {
+              value = mapp[i];
+            }
+          } else {
+            if (typeof value === 'string' && resolve) {
+              value = value .replace(safeSpecialChar, escapedSafeSpecialChar)
+                            .replace(specialChar, safeSpecialChar);
+            }
+            if (typeof value === 'function' && resolve) {
+              value = '<func>';
+            }
+          }
+        }
+        return value;
+      };
+    }
+
+    function retrieveFromPath(current, keys) {
+      for(var i = 0, length = keys.length; i < length; current = current[
+        keys[i++].replace(safeSpecialCharRG, specialChar)
+      ]);
+      return current;
+    }
+
+    function regenerateArray(root, current, retrieve) {
+      for (var i = 0, length = current.length; i < length; i++) {
+        current[i] = regenerate(root, current[i], retrieve);
+      }
+      return current;
+    }
+
+    function regenerateObject(root, current, retrieve) {
+      for (var key in current) {
+        if (current.hasOwnProperty(key)) {
+          current[key] = regenerate(root, current[key], retrieve);
+        }
+      }
+      return current;
+    }
+
+    function regenerate(root, current, retrieve) {
+      return current instanceof Array ?
+        regenerateArray(root, current, retrieve) :
+        (
+          current instanceof $String ?
+            (
+              current.length ?
+                (
+                  retrieve.hasOwnProperty(current) ?
+                    retrieve[current] :
+                    retrieve[current] = retrieveFromPath(
+                      root, current.split(specialChar)
+                    )
+                ) :
+                root
+            ) :
+            (
+              current instanceof Object ?
+                regenerateObject(root, current, retrieve) :
+                current
+            )
+        )
+      ;
+    }
+
+    function stringifyRecursion(value, replacer, space, doNotResolve) {
+      return JSON.stringify(value, generateReplacer(value, replacer, !doNotResolve), space);
+    }
+  </script>
+</body>
+</html>

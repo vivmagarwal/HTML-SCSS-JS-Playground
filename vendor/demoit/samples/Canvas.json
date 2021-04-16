@@ -1,0 +1,37 @@
+{
+  "editor": {
+    "theme": "dark",
+    "statusBar": true,
+    "layout": {
+      "name": "layoutEO",
+      "direction": "horizontal",
+      "sizes": [
+        69.0625,
+        30.9375
+      ],
+      "elements": [
+        "editor",
+        "output"
+      ]
+    }
+  },
+  "dependencies": [],
+  "files": [
+    {
+      "content": "import 'layout.html';\nimport 'styles.css';\n\n// JS Port of PlusParticle\n// k3lab ( http://wonderfl.net/user/k3lab )\n// http://wa.zozuar.org/code.php?c=hEiW\n\"use strict\";\nconst canvas = document.querySelector(\"canvas\");\nconst ctx = canvas.getContext(\"2d\", { lowLatency: true, alpha: false });\nconst w = (canvas.width = canvas.offsetWidth / 2);\nconst h = (canvas.height = canvas.offsetHeight / 2);\n///////////////////////////////////////\nconst createDot = () => {\n\tconst dot = document.createElement('canvas');\n\tdot.width = 20;\n\tdot.height = 20;\n\tconst ctx = dot.getContext(\"2d\");\n\tctx.globalCompositeOperation = \"xor\";\n\tctx.fillStyle = \"#fff\";\n\tctx.fillRect(0, 10 - 2, 20, 2);\n\tctx.fillRect(10 - 2, 0, 2, 20);\n\treturn dot;\n}\n///////////////////////////////////////\nconst Particle = class {\n\tconstructor(x, y, z) {\n\t\tthis.x = x;\n\t\tthis.y = y;\n\t\tthis.z = z;\n\t}\n};\n///////////////////////////////////////\nconst count = 4000;\nconst degree = 2 * Math.PI / count;\nconst particles = [];\nconst dot = createDot();\n///////////////////////////////////////\nconst run = time => {\n\trequestAnimationFrame(run);\n\tctx.fillRect(0, 0, w, h);\n\tconst horizontal = Math.sin(time / 2000) * 2;\n\tconst vertical = Math.sin(time / 30000);\n\tconst cosY = Math.cos(horizontal);\n\tconst sinY = Math.sin(horizontal);\n\tconst cosX = Math.cos(vertical);\n\tconst sinX = Math.sin(vertical);\n\tconst s = 2500 + 1500 * Math.sin(time / 1000);\n\tconst a = s * 2 / count;\n\tconst round = degree * 2 * Math.sin(time / 10000);\n\tfor (let i = 0; i < count; i++) {\n\t\tconst p = particles[i];\n\t\tconst size = s * Math.sin(time / 10000 + i / 10);\n\t\tconst radius = size * Math.sin(degree / 2 * i);\n\t\tp.x = radius * Math.sin(round * i + time / 1000);\n\t\tp.y = radius * Math.cos(round * i + time / 1000);\n\t\tp.z = -s + i * a;\n\t\tconst z1 = p.z * cosY + p.x * sinY;\n\t\tconst z2 = z1 * cosX + p.y * sinX;\n\t\tif (z2 > -600) {\n\t\t\tconst perspective = 300 / (600 + z2);\n\t\t\tconst px = w / 2 + (p.x * cosY - p.z * sinY) * perspective;\n\t\t\tconst py = h / 2 + (p.y * cosX - z1 * sinX) * perspective;\n\t\t\tif (px > -30 && px < w && py > -30 && py < h) {\n\t\t\t\tlet wi = (z2 - 200) * -1 / 200;\n\t\t\t\tif (wi < 0.1) wi = 0.1;\n\t\t\t\tctx.save();\n\t\t\t\tctx.translate(px, py);\n\t\t\t\tctx.rotate(i / 100);\n\t\t\t\tctx.scale(wi, wi);\n\t\t\t\tctx.drawImage(dot, -10, -10);\n\t\t\t\tctx.restore();\n\t\t\t}\n\t\t}\n\t}\n};\n///////////////////////////////////////\nfor (let i = 0; i < count; i++) {\n\tparticles.push(\n\t\tnew Particle(\n\t\t\t200 * Math.sin(degree * i),\n\t\t\t200 * Math.cos(degree * i),\n\t\t\t-100 + i / 100\n\t\t)\n\t);\n}\nrun();\n",
+      "filename": "app.js",
+      "entryPoint": true,
+      "editing": false
+    },
+    {
+      "content": "<canvas></canvas>",
+      "filename": "layout.html",
+      "editing": false
+    },
+    {
+      "content": "#output {\n\toverflow: hidden;\n\ttouch-action: none;\n\tcontent-zooming: none;\n\tmargin: 0;\n\tpadding: 0;\n\twidth: 100%;\n\theight: 100%;\n\tbackground: #111;\n}\n#output canvas {\n\tposition:absolute;\n  width: 100%;\n  height: 100%;\n\tbackground: #000;\n}",
+      "filename": "styles.css",
+      "editing": false
+    }
+  ]
+}
